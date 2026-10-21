@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Home Hub TEST</title>
+  <meta name="theme-color" content="#0f5257">
+  <meta name="description" content="Phase 0 test page. Dummy data only.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <style>
+    :root { --bg:#f6f7f7; --card:#fff; --ink:#1b1f1f; --muted:#5d6666; --accent:#0f5257; --ok:#1d7a3a; --bad:#a3261b; --line:#dde2e2; }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg:#121616; --card:#1c2222; --ink:#e8eded; --muted:#9aa5a5; --accent:#5fb3b9; --ok:#6fcf8a; --bad:#f08a80; --line:#2c3535; }
+    }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+    header { background:var(--accent); color:#fff; padding:14px 16px; padding-top:max(14px, env(safe-area-inset-top)); }
+    header h1 { margin:0; font-size:1.15rem; }
+    header p { margin:2px 0 0; font-size:.85rem; opacity:.85; }
+    main { max-width:640px; margin:0 auto; padding:12px 16px 40px; }
+    section { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:12px 14px; margin:12px 0; }
+    h2 { font-size:1rem; margin:0 0 8px; }
+    .row { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+    button, select { font:inherit; padding:10px 14px; border-radius:8px; border:1px solid var(--accent); background:var(--accent); color:#fff; }
+    button.ghost { background:transparent; color:var(--accent); }
+    select { background:var(--card); color:var(--ink); border-color:var(--line); }
+    button:disabled { opacity:.45; }
+    input[type=text] { font:inherit; width:100%; padding:12px; border-radius:8px; border:1px solid var(--line); background:var(--bg); color:var(--ink); }
+    .muted { color:var(--muted); font-size:.85rem; }
+    .ok { color:var(--ok); } .bad { color:var(--bad); }
+    ul { list-style:none; margin:0; padding:0; }
+    li { padding:6px 0; border-top:1px solid var(--line); font-size:.9rem; overflow-wrap:anywhere; }
+    li:first-child { border-top:0; }
+    code { font-size:.85rem; }
+    #offline { display:none; background:#8a5a00; color:#fff; padding:8px 16px; font-size:.9rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Home Hub TEST</h1>
+    <p>Phase 0 proofs. Dummy text only: no health, pet or money details.</p>
+  </header>
+  <div id="offline">No signal: the app shell loaded from the phone. Sign-in and data need a connection.</div>
+  <main>
+    <section>
+      <h2>1. Sign in</h2>
+      <div id="gsi-button"></div>
+      <p id="signin-status" class="muted">Not signed in.</p>
+      <p id="session-info" class="muted"></p>
+    </section>
+
+    <section>
+      <h2>2. Read and write test rows</h2>
+      <div class="row">
+        <button id="btn-read" disabled>Read rows</button>
+        <button id="btn-refuse" class="ghost">Refusal test (fake pass)</button>
+      </div>
+      <ul id="rows" style="margin-top:10px"></ul>
+    </section>
+
+    <section>
+      <h2>3. Quick add (try the keyboard mic)</h2>
+      <form id="add-form">
+        <input id="add-text" type="text" maxlength="200" autocomplete="off" enterkeyhint="send"
+               placeholder="Say or type a dummy sentence, e.g. buy more teabags on Friday">
+        <div class="row" style="margin-top:8px"><button id="btn-add" type="submit" disabled>Add row</button></div>
+      </form>
+    </section>
+
+    <section>
+      <h2>4. Calendar pop-up test</h2>
+      <div class="row">
+        <select id="lead" aria-label="Minutes ahead">
+          <option value="5">in 5 minutes</option>
+          <option value="40">in 40 minutes</option>
+        </select>
+        <button id="btn-event" disabled>Create test event</button>
+      </div>
+      <p class="muted">Makes a test event on Steve's calendar with a pop-up and invites Steve and Emma.</p>
+    </section>
+
+    <section>
+      <h2>Round trips</h2>
+      <ul id="log"></ul>
+    </section>
+
+    <section>
+      <h2>This device</h2>
+      <p id="device" class="muted"></p>
+    </section>
+  </main>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+  <script src="https://accounts.google.com/gsi/client" async defer onload="hhGsiLoaded()"></script>
+</body>
+</html>
